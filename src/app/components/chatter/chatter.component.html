@@ -1,0 +1,17 @@
+<button [ngClass]="{'hidden': isOpen()}" class="fixed bg-primary text-white px-4 py-2 right-36 bottom-32 rounded-lg animate-bounce font-bold" (click)="toggle()">Ask AI</button>
+<section [ngClass]="{'hidden': !isOpen()}" id="chatter" class="h-[30rem] w-[25rem] fixed z-10 right-20 bottom-20 flex flex-col shadow-glow">
+    <header class="bg-primary py-4 flex items-center justify-between">
+        <p class="px-4">AI, Why?</p>
+        <button (click)="toggle()" class="mr-2"><img class="size-3" src="assets/icon/close.png" alt="Close"></button>
+    </header>
+    <section #msgContainer class="flex-1 bg-background overflow-scroll overflow-x-hidden">
+        @for(msg of messages; let i = $index; track i){
+            <app-message [message]="msg" />
+        }
+    </section>
+    <footer>
+        <form class="flex px-4 gap-2" [formGroup]="form" (ngSubmit)="send()">
+            <input formControlName="message" placeholder="Message" type="text" class="p-4 flex-1 bg-slate-300 rounded-full outline-primary"> <button type="submit"><img class="size-4" src="assets/icon/send-message.png" alt="Send"></button>
+        </form>
+    </footer>
+</section>

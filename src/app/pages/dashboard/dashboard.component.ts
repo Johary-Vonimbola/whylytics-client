@@ -3,12 +3,14 @@ import { Kpi } from '../../models/Kpi';
 import { KpiComponent } from '../../components/kpi/kpi.component';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { GraphData } from '../../models/GraphData';
+import { ChatterComponent } from '../../components/chatter/chatter.component';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     KpiComponent,
-    GraphComponent
+    GraphComponent,
+    ChatterComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

@@ -1,0 +1,4 @@
+<p class="max-w-[80%] w-fit my-5 py-3 px-2 shadow-sm rounded-lg" 
+    [ngClass]="{'mr-auto bg-slate-200 text-text-primary': !this.message.mine, 'ml-auto bg-primary text-white': this.message.mine}">
+    {{ this.message.message }}
+</p>
