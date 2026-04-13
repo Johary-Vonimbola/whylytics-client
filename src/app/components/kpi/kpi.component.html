@@ -1,9 +1,19 @@
 <article class="flex flex-col gap-3">
     <p class="text-2xl text-text-secondary">{{ data.title }}</p>
-    <p class="text-4xl font-bold">{{ data.amount | currency}}</p>
-    @if(data.performance >= 0){
-        <p class="flex items-center text-xl text-success"><img class="size-5" src="assets/icon/up-arrows.png" alt="Up arrow icon"> {{ data.performance | percent }}</p>
-    }@else{
-        <p class="flex items-center text-xl text-danger"><img class="size-5"  src="assets/icon/down-arrows.png"  alt="Down arrow icon"> {{ data.performance | percent }}</p>    
-    }
+    <p class="text-4xl font-bold">
+        @if(typeof(data.amount) === "number"){
+            @if(data.isMoney){
+                {{ data.amount | currency}}
+            }@else{
+                {{ data.amount }}
+            }
+            @if(data.performance >= 0){
+                <p class="flex items-center text-xl text-success"><img class="size-5" src="assets/icon/up-arrows.png" alt="Up arrow icon"> {{ data.performance | percent }}</p> 
+            }@else{
+                <p class="flex items-center text-xl text-danger"><img class="size-5"  src="assets/icon/down-arrows.png"  alt="Down arrow icon"> {{ data.performance | percent }}</p>     
+            }
+        }@else{
+            {{ data.amount }}
+        }
+    </p>
 </article>
