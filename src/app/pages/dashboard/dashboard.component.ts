@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Kpi } from '../../models/Kpi';
 import { KpiComponent } from '../../components/kpi/kpi.component';
 import { GraphComponent } from '../../components/graph/graph.component';
 import { GraphData } from '../../models/GraphData';
 import { ChatterComponent } from '../../components/chatter/chatter.component';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,16 +18,21 @@ import { ChatterComponent } from '../../components/chatter/chatter.component';
 })
 export class DashboardComponent implements OnInit{
   kpis!: Kpi[];
-  dashboardData: GraphData[] = [
-    new GraphData('Ventes', [1200, 2310, 2413, 8648, 3700, 5000, 1278, 9000, 2780, 2342, 8340, 3420])
-  ];
+  dashboardData: GraphData[] = [];
+  dashboardService: DashboardService = inject(DashboardService);
 
   ngOnInit(): void {
-    this.kpis = [
-      new Kpi("Total des ventes", 1230000, 0.12),
-      new Kpi("Total des ventes", 1230000, -0.03),
-      new Kpi("Total des ventes", 1230000, 0.12)
-    ]
+    const sales = this.dashboardService.getData();
+    sales.subscribe(res => {
+      this.kpis = [
+        new Kpi("Total des ventes", res.totalSale.amount, res.totalSale.percent / 100, true),
+        new Kpi("Nombre total de vente", res.saleCount.amount, res.saleCount.percent / 100, false),
+        new Kpi("Top produit de ce mois", res.topProduct, 0, false)
+      ];
+      this.dashboardData = [
+        new GraphData("Ventes", res.graphData)
+      ];
+    });
   }
 
 }
