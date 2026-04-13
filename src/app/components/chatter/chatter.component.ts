@@ -3,6 +3,7 @@ import { Message } from '../../models/Message';
 import { MessageComponent } from '../message/message.component';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { AiService } from '../../services/ai.service';
 
 @Component({
   selector: 'app-chatter',
@@ -15,14 +16,10 @@ import { NgClass } from '@angular/common';
   styleUrl: './chatter.component.scss'
 })
 export class ChatterComponent implements AfterViewChecked{
+  private aiService: AiService = inject(AiService);
   @ViewChild('msgContainer') private msgContainer!: ElementRef;
   messages: Message[] = [
-    new Message(false, "Hello there"),
-    new Message(true, "Hello there"),
-    new Message(false, "Hello there"),
-    new Message(true, "Hello there"),
-    new Message(false, "Hello there"),
-    new Message(false, "Hello there"),
+    new Message(false, "Bonjour, je suis votre assistant IA"),
   ];
   isOpen: WritableSignal<boolean> = signal<boolean>(false);
 
@@ -47,7 +44,16 @@ export class ChatterComponent implements AfterViewChecked{
       this.messages.push(
         new Message(true, this.form.controls.message.value ?? '')
       );
+      const prompt = this.form.controls.message.value ?? '';
       this.form.controls.message.setValue('');
+
+      this.aiService.sendPrompt(prompt).subscribe(res => {
+        setTimeout(() => {
+          this.messages.push(
+            new Message(false, res)
+          );
+        }, 1000);
+      });
     }
   }
 
