@@ -17,8 +17,6 @@ export class KpiComponent implements OnInit{
     required: true
   }) data!: Kpi;
 
-  @Input() isMoney!: boolean;
-  
   ngOnInit(): void {
     
   }
